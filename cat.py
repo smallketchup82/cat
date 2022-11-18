@@ -26,10 +26,9 @@ threading.Thread(target=playCatSound, daemon=True).start()
 def downloadCat():
     print("Obtaining cat image...")
     
-    image = None
-    try:
-        image = requests.get("https://cataas.com/cat/cute")
-    except:
+    image = requests.get("https://cataas.com/cat/cute")
+    
+    if image.status_code != 200:
         print("Using backup API!")
         image = requests.get(requests.get("https://api.thecatapi.com/v1/images/search").json()[0]['url'])
 
@@ -41,12 +40,12 @@ def downloadCat():
         if platform.system() == "Darwin":
             subprocess.call(('open', '-Wg', filename))
         elif platform.system() == "Windows":
-            subprocess.call(('start /wait', filename))
+            subprocess.call(('start', '', "/wait", "/min", filename), shell=True)
+            time.sleep(1)
         else:
             print("Unsupported OS!")
             exit(0)
             
-        time.sleep(1)
         os.remove(filename)
         
     threading.Thread(target=openNsomething).start()
