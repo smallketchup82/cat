@@ -46,6 +46,7 @@ def downloadCat():
             print("Unsupported OS!")
             exit(0)
             
+        time.sleep(1)
         os.remove(filename)
         
     threading.Thread(target=openNsomething).start()
