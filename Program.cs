@@ -127,13 +127,13 @@ internal class Program
 
         var fs = new FileStream(filename, FileMode.CreateNew);
         await image.Content.CopyToAsync(fs);
+        fs.Close();
 
         var thing = new System.Diagnostics.Process();
 
         thing.StartInfo.UseShellExecute = true;
         thing.StartInfo.FileName = filename;
         thing.Start();
-        await thing.WaitForExitAsync();
 
         Thread.Sleep(1000);
         File.Delete(filename);
