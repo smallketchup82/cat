@@ -32,13 +32,15 @@ def downloadCat():
     print("Obtaining cat image...")
     
     # Gets the cat image from an API
-    image = requests.get("https://cataas.com/cat/cute")
+    image = requests.get("https://cataas.com/cat")
     
     # If the API is down, use a backup API
     if image.status_code != 200:
         print("Using backup API!")
         image = requests.get(requests.get("https://api.thecatapi.com/v1/images/search").json()[0]['url'])
 
+    if (image.headers["Content-Type"] == "image/gif"): return print("Got a gif, skipping this download")
+    
     # Write the image to disk
     filename = f"cat{''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5))}.png"
     with open(filename, 'wb') as outfile:
@@ -60,7 +62,7 @@ def downloadCat():
     # Open the image in a new thread, so that the main thread can start loading the next image by the time the current one is opened.
     threading.Thread(target=openNsomething).start()
     print("Downloaded cat!")
+    time.sleep(1)
 
 while True:
     downloadCat()
-    time.sleep(1)
