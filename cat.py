@@ -10,6 +10,8 @@ import signal
 import pip._vendor.requests as requests
 import playsound
 
+def killProgram():
+    os.kill(os.getpid(), signal.SIGKILL)
 
 def playCatSound():
     print("Playing cat song!")
@@ -18,7 +20,7 @@ def playCatSound():
             playsound.playsound("./cat.mp3")
     except:
         print("Error playing cat song!")
-        os.kill(os.getpid(), signal.SIGKILL)
+        killProgram()
     time.sleep(1)
 
 threading.Thread(target=playCatSound, daemon=True).start()
@@ -44,7 +46,7 @@ def downloadCat():
             time.sleep(1)
         else:
             print("Unsupported OS!")
-            exit(0)
+            killProgram()
             
         os.remove(filename)
         
